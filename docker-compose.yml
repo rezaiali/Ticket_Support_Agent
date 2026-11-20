@@ -1,0 +1,24 @@
+services:
+   dbbackend:
+      image: db_backend2:latest
+      ports:
+        - "4046:4046"
+      networks:
+        - backend
+      environment:
+        - APIserver:"0.0.0.0"
+        - DbHost=host.docker.internal
+        - DbUser=root
+        - DbPass=MyNewPassword123!
+        - DbName=ticketbox_ai
+   aibackend:
+      image: ai_backend
+      ports:
+        - "4048:4048"
+      networks:
+        - backend
+      depends_on:
+        - dbbackend
+networks:
+    backend:
+      driver: bridge
